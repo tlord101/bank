@@ -1,0 +1,470 @@
+ <!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuminaGrant | Community Appreciation</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Custom Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        amber: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* Carousel Transitions */
+        .testimonial-slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .testimonial-slide.active {
+            display: block;
+            opacity: 1;
+            animation: fadeIn 0.8s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 antialiased overflow-x-hidden">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 py-6 bg-white/80 backdrop-blur-md border-b border-transparent">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="text-2xl font-serif font-bold text-slate-900 tracking-wide hover:opacity-80 transition-opacity">
+                Lumina<span class="text-amber-600">Grant</span>.
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-slate-600 hover:text-amber-600 transition-colors text-xs font-medium uppercase tracking-[0.15em]">About</a>
+                <a href="#testimonials" class="text-slate-600 hover:text-amber-600 transition-colors text-xs font-medium uppercase tracking-[0.15em]">Stories</a>
+                <a href="#faq" class="text-slate-600 hover:text-amber-600 transition-colors text-xs font-medium uppercase tracking-[0.15em]">Eligibility</a>
+                <button onclick="openModal()" class="px-6 py-2.5 border border-slate-200 text-slate-800 rounded-full hover:border-amber-500 hover:text-amber-600 transition-all duration-300 font-medium text-sm shadow-sm hover:shadow-md">
+                    Verify Status
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button onclick="toggleMenu()" class="md:hidden text-slate-900 p-2">
+                <i class="ph ph-list text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white border-b border-slate-100 shadow-xl p-6 flex flex-col space-y-4">
+            <a href="#about" onclick="toggleMenu()" class="text-slate-600 font-medium">About</a>
+            <a href="#testimonials" onclick="toggleMenu()" class="text-slate-600 font-medium">Stories</a>
+            <button onclick="openModal(); toggleMenu()" class="w-full py-3 bg-amber-500 text-white font-bold rounded shadow-lg">Verify Status</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden">
+        <!-- Background Decor -->
+        <div class="blob bg-amber-200 w-96 h-96 rounded-full top-0 right-0 translate-x-1/3 -translate-y-1/4"></div>
+        <div class="blob bg-blue-100 w-96 h-96 rounded-full bottom-0 left-0 -translate-x-1/3 translate-y-1/4"></div>
+
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center relative z-10">
+            
+            <!-- Content Left -->
+            <div class="space-y-8 text-center md:text-left animate-slide-up">
+                <div class="inline-flex items-center space-x-2 bg-slate-50 border border-slate-200 rounded-full px-4 py-1.5 shadow-sm">
+                    <span class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
+                    <span class="text-slate-600 text-xs font-bold tracking-widest uppercase">Limited Time Initiative</span>
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl font-serif font-bold text-slate-900 leading-[1.1]">
+                    Rewarding our <br />
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-amber-700">
+                        Digital Community
+                    </span>
+                </h1>
+                
+                <p class="text-lg md:text-xl text-slate-500 leading-relaxed max-w-lg mx-auto md:mx-0 font-light">
+                    The $50,000 Appreciation Fund is now open. Exclusively for loyal Facebook users with over 3 months of activity.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start">
+                    <button onclick="openModal()" class="group relative px-8 py-4 bg-slate-900 rounded-full text-white font-bold shadow-xl shadow-slate-900/20 hover:shadow-slate-900/30 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                        <span class="relative z-10 flex items-center">
+                            Claim Your Reward <i class="ph ph-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </button>
+                    
+                    <div class="flex items-center space-x-2 text-slate-500 text-sm font-medium">
+                        <i class="ph-fill ph-shield-check text-emerald-500 text-xl"></i>
+                        <span>Secure & Verified</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Right -->
+            <div class="relative flex justify-center md:justify-end animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="relative w-80 h-80 md:w-[500px] md:h-[500px]">
+                    <!-- Rotating rings -->
+                    <div class="absolute inset-0 rounded-full border border-slate-200 animate-[spin_30s_linear_infinite]"></div>
+                    <div class="absolute inset-4 rounded-full border border-slate-100 animate-[spin_20s_linear_infinite_reverse]"></div>
+                    
+                    <!-- Main Image -->
+                    <div class="absolute inset-8 rounded-full overflow-hidden shadow-2xl border-4 border-white">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Happy diverse community" 
+                             class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700">
+                    </div>
+
+                    <!-- Floating Badge -->
+                    <div class="absolute bottom-12 left-0 md:-left-4 glass-panel p-4 rounded-2xl shadow-xl flex items-center space-x-4 animate-bounce" style="animation-duration: 3s;">
+                        <div class="bg-amber-100 p-3 rounded-full">
+                            <i class="ph-fill ph-currency-dollar text-amber-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-slate-900 font-bold text-lg">$50,000</p>
+                            <p class="text-slate-500 text-xs uppercase tracking-wide">Total Pool</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-slate-900 mb-6">Why We Are Doing This</h2>
+                <div class="w-16 h-1 bg-amber-500 mx-auto rounded-full mb-6"></div>
+                <p class="text-slate-600 max-w-2xl mx-auto text-lg leading-relaxed font-light">
+                    We believe in the power of connection. The LuminaGrant is our way of simulating economic growth by empowering the daily users of the world's largest social platform.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10">
+                <!-- Card 1 -->
+                <div class="bg-white p-10 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-slate-100 group">
+                    <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i class="ph ph-clock text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3 font-serif">History Check</h3>
+                    <p class="text-slate-500 leading-relaxed">
+                        Your Facebook account must be active for at least 3 months prior to application to ensure community integrity.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white p-10 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-slate-100 group">
+                    <div class="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mb-6 text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                        <i class="ph ph-users-three text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3 font-serif">Community Focus</h3>
+                    <p class="text-slate-500 leading-relaxed">
+                        This grant is designed to give back to real people, verifying identity through established social presence.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white p-10 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-slate-100 group">
+                    <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mb-6 text-emerald-600 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                        <i class="ph ph-check-circle text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3 font-serif">Instant Verification</h3>
+                    <p class="text-slate-500 leading-relaxed">
+                        Our automated system verifies your eligibility safely within seconds, ensuring no lengthy waiting periods.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-24 bg-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div>
+                    <span class="text-amber-600 font-bold uppercase tracking-widest text-xs mb-2 block">Testimonials</span>
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-slate-900">Success Stories</h2>
+                </div>
+                <!-- Navigation Buttons -->
+                <div class="flex space-x-3 mt-6 md:mt-0">
+                    <button onclick="prevSlide()" class="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all">
+                        <i class="ph ph-arrow-left text-xl"></i>
+                    </button>
+                    <button onclick="nextSlide()" class="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all">
+                        <i class="ph ph-arrow-right text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Carousel Container -->
+            <div class="relative min-h-[300px]">
+                
+                <!-- Slide 1 -->
+                <div class="testimonial-slide active">
+                    <div class="bg-slate-50 p-10 md:p-14 rounded-[2.5rem] relative">
+                        <i class="ph-fill ph-quotes text-6xl text-slate-200 absolute top-8 left-8"></i>
+                        <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center md:items-start">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150&h=150" alt="User" class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg">
+                            <div class="text-center md:text-left flex-1">
+                                <p class="text-xl md:text-2xl font-serif italic text-slate-700 mb-6 leading-relaxed">"I didn't believe it at first, but the verification process was seamless. The funds helped me start my small bakery business."</p>
+                                <div>
+                                    <h4 class="text-lg font-bold text-slate-900">Sarah Jenkins</h4>
+                                    <p class="text-slate-500 text-sm">Verified User • Joined 2015</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="testimonial-slide">
+                    <div class="bg-slate-50 p-10 md:p-14 rounded-[2.5rem] relative">
+                        <i class="ph-fill ph-quotes text-6xl text-slate-200 absolute top-8 left-8"></i>
+                        <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center md:items-start">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150&h=150" alt="User" class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg">
+                            <div class="text-center md:text-left flex-1">
+                                <p class="text-xl md:text-2xl font-serif italic text-slate-700 mb-6 leading-relaxed">"Sophisticated, fast, and legitimate. It's rare to see a program that actually values long-term community members like this."</p>
+                                <div>
+                                    <h4 class="text-lg font-bold text-slate-900">Michael Chen</h4>
+                                    <p class="text-slate-500 text-sm">Verified User • Joined 2018</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="testimonial-slide">
+                    <div class="bg-slate-50 p-10 md:p-14 rounded-[2.5rem] relative">
+                        <i class="ph-fill ph-quotes text-6xl text-slate-200 absolute top-8 left-8"></i>
+                        <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center md:items-start">
+                            <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&q=80&w=150&h=150" alt="User" class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg">
+                            <div class="text-center md:text-left flex-1">
+                                <p class="text-xl md:text-2xl font-serif italic text-slate-700 mb-6 leading-relaxed">"A wonderful surprise. The eligibility criteria were clear, and the support team was incredibly helpful throughout the process."</p>
+                                <div>
+                                    <h4 class="text-lg font-bold text-slate-900">Amara Okeke</h4>
+                                    <p class="text-slate-500 text-sm">Verified User • Joined 2020</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="text-3xl font-serif font-bold text-white tracking-wide mb-6">
+                        Lumina<span class="text-amber-500">Grant</span>.
+                    </div>
+                    <p class="text-slate-400 max-w-sm leading-relaxed mb-6">
+                        Empowering the digital community through strategic financial distribution. 
+                        Making the internet a more rewarding place, one user at a time.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-amber-500 hover:text-slate-900 transition-all">
+                            <i class="ph-fill ph-facebook-logo text-lg"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-amber-500 hover:text-slate-900 transition-all">
+                            <i class="ph-fill ph-instagram-logo text-lg"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-amber-500 hover:text-slate-900 transition-all">
+                            <i class="ph-fill ph-twitter-logo text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-4 text-slate-400 text-sm">
+                        <li><a href="#" class="hover:text-amber-500 transition-colors">Eligibility Checker</a></li>
+                        <li><a href="#" class="hover:text-amber-500 transition-colors">Winners Circle</a></li>
+                        <li><a href="#" class="hover:text-amber-500 transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-amber-500 transition-colors">Contact Support</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-6">Legal</h4>
+                    <ul class="space-y-4 text-slate-400 text-sm">
+                        <li><a href="#" class="hover:text-amber-500 transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-amber-500 transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-amber-500 transition-colors">Disclaimers</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm">
+                <p>&copy; 2025 LuminaGrant Foundation. All rights reserved.</p>
+                <p class="mt-2 md:mt-0">Not affiliated with Meta Platforms, Inc.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL -->
+    <div id="verifyModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative z-10 transform transition-all animate-slide-up">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-900 transition-colors">
+                <i class="ph ph-x text-2xl"></i>
+            </button>
+            
+            <div class="mb-6 flex justify-center">
+                <div class="bg-amber-50 p-4 rounded-full border border-amber-100">
+                    <i class="ph-fill ph-shield-check text-5xl text-amber-500"></i>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-serif font-bold text-slate-900 text-center mb-4">
+                Verification Required
+            </h3>
+            
+            <p class="text-slate-600 text-center mb-8 leading-relaxed">
+                You will be redirected to a secure page to verify your Facebook account eligibility. Once verified, you will be sent a message to proceed on how to receive your funds.
+            </p>
+
+            <div class="space-y-3">
+                <button onclick="handleVerification()" class="w-full py-3.5 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 hover:shadow-lg transition-all duration-200 transform active:scale-95 flex items-center justify-center gap-2">
+                    Proceed to Verification <i class="ph-bold ph-arrow-right"></i>
+                </button>
+                <button onclick="closeModal()" class="w-full py-3.5 bg-slate-100 text-slate-600 font-medium rounded-xl hover:bg-slate-200 transition-colors">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Modal Logic ---
+        const modal = document.getElementById('verifyModal');
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        function handleVerification() {
+    // Redirects to a file named 'verification.html' in the same directory
+    window.location.href = "verification.html";
+}
+
+
+        // --- Mobile Menu Logic ---
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // --- Navbar Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow-md', 'bg-white/90');
+                navbar.classList.remove('border-transparent');
+                navbar.classList.add('border-slate-100');
+            } else {
+                navbar.classList.remove('shadow-md', 'bg-white/90', 'border-slate-100');
+                navbar.classList.add('border-transparent');
+            }
+        });
+
+        // --- Testimonial Carousel Logic ---
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.testimonial-slide');
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // Auto advance carousel
+        setInterval(nextSlide, 6000);
+    </script>
+</body>
+</html>
+

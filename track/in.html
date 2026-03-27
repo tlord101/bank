@@ -1,0 +1,20 @@
+<!DOCTYPE html><html>
+<head>
+    <title>Location Input</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAzA2iR8Xv4ElOu17s1h72BDnH78DbOgQ"></script>
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+    <div>
+        <h2>Enter a location to update the courier's position</h2>
+        <form id="locationForm">
+            <input type="text" id="locationInput" placeholder="Enter a location (e.g., New York)" required>
+            <button type="submit">Update Location</button>
+        </form>
+    </div>
+
+    <div id="map" style="height: 500px; width: 100%; margin-top: 20px;"></div>
+</body>
+</html>

